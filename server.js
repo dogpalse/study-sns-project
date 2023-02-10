@@ -21,16 +21,18 @@ app.use(express.urlencoded({ extended: false }));
 
 // 라우터 연결
 // app.use('/', pageRouter);
+// 404 응답 미들웨어
 app.use((req, res, next) => {
     const error = new Error();
     error.status = 404;
     next(error);
 });
+// 에러 처리 미들웨어
 app.use((err, req, res, next) => {
     res.locals.message = err.message;
     res.locals.error = process.env.NODE_ENV === 'production' ? err : {};
     res.status(err.status || 500);
-    res.render('error');
+    res.sendFile(path.join(__dirname, 'views/error.html'));
 })
 
 app.listen(app.get('port'), () => {
