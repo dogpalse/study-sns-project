@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const logger = require('morgan');
-// const pageRouter = require('./routes/pages');
+const pageRouter = require('./routes/page');
 
 dotenv.config();
 
@@ -20,10 +20,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // 라우터 연결
-// app.use('/', pageRouter);
+app.use('/', pageRouter);
 // 404 응답 미들웨어
 app.use((req, res, next) => {
-    const error = new Error();
+    const error = new Error("Happen 404 Error");
     error.status = 404;
     next(error);
 });
