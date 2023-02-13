@@ -8,9 +8,9 @@ const Hashtag = require('./hashtag');
 const db = {};
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 db.sequelize = sequelize;
-db.user = User;
-db.post = Post;
-db.hashtag = Hashtag;
+db.User = User;
+db.Post = Post;
+db.Hashtag = Hashtag;
 
 User.init(sequelize);
 Post.init(sequelize);
