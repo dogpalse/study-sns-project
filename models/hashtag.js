@@ -20,5 +20,9 @@ module.exports = class Hashtag extends Sequelize.Model {
         });
     }
 
-    static associate(db) {};
+    // Hashtag 모델 관계 정의
+    // N(Hashtag) : M(Post) 관계
+    static associate(db) {
+        db.Hashtag.belongsToMany(db.Post, { through: 'PostHashtag' });
+    };
 }
