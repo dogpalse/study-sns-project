@@ -29,6 +29,9 @@ module.exports = class User extends Sequelize.Model {
                 allowNull: true
             }
         }, {
+            // 테이블 옵션
+            // timestamp = true & paranoid = true
+            // => createAt, updateAt, deletedAt 컬럼 생성
             sequelize,
             timestamps: true,
             underscored: false,
