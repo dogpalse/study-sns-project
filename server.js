@@ -3,6 +3,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const logger = require('morgan');
 const pageRouter = require('./routes/page');
+const { sequelize } = require('./models');
 
 dotenv.config();
 
@@ -13,7 +14,11 @@ app.set('port', process.env.PORT || 8080);
 // app.set('view engine', 'ejs');
 
 // DB 연결
-
+sequelize.sync({ force: false }).then(() => {
+    console.log('데이터베이스 연결 성공...!');
+}).catch(err => {
+    console.error(err);
+});
 
 app.use(logger('dev'));
 app.use(express.json());
