@@ -7,6 +7,7 @@ const passport = require('passport');
 const pageRouter = require('./routes/page');
 const { sequelize } = require('./models');
 const passportConfig = require('./passport');
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 passportConfig();
@@ -27,6 +28,21 @@ sequelize.sync({ force: false }).then(() => {
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+        httpOnly: true,
+        secure: false
+    }
+}));
+// passport 미들웨어 등록
+// passport.initialize() => req 객체에 passport 설정 등록
+// passport.session() => req.session(express-session에 의해 생성되는 객체) 객체에 passport 정보 저장
+app.use(passport.initialize());
+app.use(passport.session());
 
 // 라우터 연결
 app.use('/', pageRouter);
@@ -44,15 +60,7 @@ app.use((err, req, res, next) => {
     res.sendFile(path.join(__dirname, 'views/error.html'));
 });
 
-app.use(session({
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.COOKIE_SECRET,
-    cookie: {
-        httpOnly: true,
-        secure: false
-    }
-}))
+
 
 app.listen(app.get('port'), () => {
     console.log(`${app.get('port')}에 연결...!`);
