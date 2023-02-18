@@ -43,7 +43,9 @@ module.exports = class User extends Sequelize.Model {
         });
     }
 
-    // 유저 모델 관계
+    // 유저 모델 관계 정의
+    // 1(User) : N(Post) 관계
+    // N(User) : M(User) 관계
     static associate(db) {
         // Post 모델과 1:N 관계
         db.User.hasMany(db.Post);
