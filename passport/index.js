@@ -7,6 +7,9 @@ module.exports = () => {
     // 로그인 요청에 실행
     // req.session 객체에 저장할 데이터 설정
     passport.serializeUser((user, done) => {
+        // done(error, data)
+        // error = 에러 발생 시 실행
+        // data = req.session에 저장할 데이터
         done(null, user.id);
     });
 
